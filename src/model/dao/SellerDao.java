@@ -9,7 +9,7 @@ public interface SellerDao {
 
 	void insert(Seller obj);// função q insere um obj no banco de dados
 
-	void update(Seller obj);
+	void update(Seller obj);//função de atualização de dados de um vendedor
 
 	void deleteBayId(Integer id);
 
