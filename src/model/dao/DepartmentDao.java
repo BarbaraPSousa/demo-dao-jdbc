@@ -6,11 +6,11 @@ import model.entities.Department;
 
 public interface DepartmentDao {
 
-	void insert(Department obj);// inseri um obj no banco de dados
+	void insert(Department obj);// função inseri um obj no banco de dados
 
-	void update(Department obj);
+	void update(Department obj);// função de atuualização de dados
 
-	void deleteBayId(Integer id);
+	void deleteBayId(Integer id); // função de deleta dados
 
 	Department findById(Integer id);// pega o id e consultas etem no banco de dados, retorna fal ou null
 

@@ -87,8 +87,7 @@ public class SellerDaoJDBC implements SellerDao{
 		}
 		finally {//fechando
 			DB.closeStatement(st);
-		}
-		
+		}	
 	}
 
 	@Override
@@ -101,14 +100,14 @@ public class SellerDaoJDBC implements SellerDao{
 			
 			int rows = st.executeUpdate();
 			
-			if(rows == 0) {
+			if(rows == 0) {//testando se id existe 
 				throw new DbException("Id doesn't exist");
 			}
 		}
-		catch (SQLException e) {
+		catch (SQLException e) {//tratando exceção
 			throw new DbException(e.getMessage());
 		}
-		finally {
+		finally {//fechando 
 			DB.closeStatement(st);
 		}
 	}

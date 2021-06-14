@@ -18,10 +18,10 @@ public class Program {
 		SellerDao sellerDao = DaoFactory.createSellerDao();//instanciando um Sellerdao, n precissa do new.		
 		
 		System.out.println(" *** TEST 1: seller findBayId *** ");
-		Seller seller = sellerDao.findById(3); //test
+		Seller seller = sellerDao.findById(3); 
 		System.out.println(seller);
 		
-		System.out.println(" \n*** TEST 2: seller findBayId *** ");
+		System.out.println(" \n*** TEST 2: seller findByDepartment *** ");
 		Department department = new Department(2, null);
 		List<Seller> list = sellerDao.findByDepartment(department);
 		for(Seller obj : list) {
