@@ -90,8 +90,40 @@ public class SellerDaoJDBC implements SellerDao{
 
 	@Override
 	public List<Seller> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"SELECT seller.*,department.Name as DepName " 
+					+ "FROM seller INNER JOIN department "							
+					+ "ON seller.DepartmentId = department.Id " 
+					+ "ORDER BY Name");
+
+			rs = st.executeQuery();
+
+			List<Seller> list = new ArrayList<>();
+
+			Map<Integer, Department> map = new HashMap<>();
+
+			while (rs.next()) {// percorrendo enquanto tiver um proximo
+
+				Department dep = map.get(rs.getInt("DepartmentId"));// guardando qualquer departmente
+
+				if (dep == null) {// verificando se ja existe dep para não repetir
+					dep = instantiateDepartment(rs);// instanciando o dep.
+					map.put(rs.getInt("DepartmentId"), dep);// salvando informaçao
+				}
+
+				Seller obj = instantiateSeller(rs, dep);// instanciando vendedor apontando para dep.
+				list.add(obj);
+			}
+			return list;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 	@Override
@@ -100,40 +132,37 @@ public class SellerDaoJDBC implements SellerDao{
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT seller.*,department.Name as DepName "
+					"SELECT seller.*,department.Name as DepName " 
 					+ "FROM seller INNER JOIN department "
 					+ "ON seller.DepartmentId = department.Id "
-					+ "WHERE DepartmentId = ? "
-					+ "ORDER BY Name");
-			
-			st.setInt(1, department.getId());//recebe o parametro da entrada da fun.
-			
+					+ "WHERE DepartmentId = ? " + "ORDER BY Name");
+
+			st.setInt(1, department.getId());// recebe o parametro da entrada da fun.
+
 			rs = st.executeQuery();
-			
+
 			List<Seller> list = new ArrayList<>();
-			
+
 			Map<Integer, Department> map = new HashMap<>();
-			
-			while(rs.next()) {//percorrendo enquanto tiver um proximo
-				
-				Department dep = map.get(rs.getInt("DepartmentId"));//guardando qualquer departmente
-			
-				if(dep == null) {//verificando se ja existe dep para não repetir
-					dep = instantiateDepartment(rs);//instanciando o dep.
-					map.put(rs.getInt("DepartmentId"), dep);//salvando informaçao					
+
+			while (rs.next()) {// percorrendo enquanto tiver um proximo
+
+				Department dep = map.get(rs.getInt("DepartmentId"));// guardando qualquer departmente
+
+				if (dep == null) {// verificando se ja existe dep para não repetir
+					dep = instantiateDepartment(rs);// instanciando o dep.
+					map.put(rs.getInt("DepartmentId"), dep);// salvando informaçao
 				}
-				
-				Seller obj = instantiateSeller(rs, dep);//instanciando vendedor apontando para dep.
+
+				Seller obj = instantiateSeller(rs, dep);// instanciando vendedor apontando para dep.
 				list.add(obj);
-				}
-			return list; 
-		}
-		catch (SQLException e) {
+			}
+			return list;
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}
-		finally {
+		} finally {
 			DB.closeStatement(st);
-			DB.closeResultSet(rs);			
+			DB.closeResultSet(rs);
 		}
 	}
 }
