@@ -11,7 +11,7 @@ public interface SellerDao {
 
 	void update(Seller obj);//função de atualização de dados de um vendedor
 
-	void deleteBayId(Integer id);
+	void deleteBayId(Integer id);// função de delata um vendedor
 
 	Seller findById(Integer id);// função q pega o id e consultas se tem no banco de dados, retorna fal ou null
 
